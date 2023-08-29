@@ -6,7 +6,6 @@ import com.example.codingchallenge.model.Character;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -85,13 +84,13 @@ public class DetailActivity extends AppCompatActivity {
 
         // Populate the UI with character details
         nameTextView.setText(character.getName());
-        heightTextView.setText("Height: " + character.getHeight());
-        massTextView.setText("Mass: " + character.getMass());
-        hairColorTextView.setText("Hair Color: " + character.getHairColor());
-        skinColorTextView.setText("Skin Color: " + character.getSkinColor());
-        eyeColorTextView.setText("Eye Color: " + character.getEyeColor());
-        birthYearTextView.setText("Birth Year: " + character.getBirthYear());
-        genderTextView.setText("Gender: " + character.getGender());
+        heightTextView.setText(String.format(getString(R.string.height_label), character.getHeight()));
+        massTextView.setText(String.format(getString(R.string.mass_label), character.getMass()));
+        hairColorTextView.setText(String.format(getString(R.string.hair_color_label), character.getHairColor()));
+        skinColorTextView.setText(String.format(getString(R.string.skin_color_label), character.getSkinColor()));
+        eyeColorTextView.setText(String.format(getString(R.string.eye_color_label), character.getEyeColor()));
+        birthYearTextView.setText(String.format(getString(R.string.birth_year_label), character.getBirthYear()));
+        genderTextView.setText(String.format(getString(R.string.gender_label), character.getGender()));
 
     }
 
@@ -130,10 +129,10 @@ public class DetailActivity extends AppCompatActivity {
     private void updateFavoriteButton() {
         Button favoriteButton = findViewById(R.id.favoriteButton);
         if (isFavorite) {
-            favoriteButton.setText("Remove from Favorites");
+            favoriteButton.setText(R.string.remove_from_favorites);
             favoriteIcon.setVisibility(View.VISIBLE);
         } else {
-            favoriteButton.setText("Add to Favorites");
+            favoriteButton.setText(R.string.add_to_favorites);
             favoriteIcon.setVisibility(View.INVISIBLE);
 
         }

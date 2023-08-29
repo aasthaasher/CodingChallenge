@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">CodingChallenge</string>
+    <string name="height_label">Height: %s</string>
+    <string name="mass_label">Mass: %s</string>
+    <string name="hair_color_label">Hair Color: %s</string>
+    <string name="skin_color_label">Skin Color: %s</string>
+    <string name="eye_color_label">Eye Color: %s</string>
+    <string name="birth_year_label">Birth Year: %s</string>
+    <string name="gender_label">Gender: %s</string>
+    <string name="remove_from_favorites">Remove from Favorites</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+
+
 </resources>
