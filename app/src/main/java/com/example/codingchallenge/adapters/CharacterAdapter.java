@@ -16,14 +16,18 @@ import java.util.Set;
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.ViewHolder> {
     private List<Character> characterList;
     private OnItemClickListener clickListener;
+    private Set<String> favorites;
+
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public CharacterAdapter(List<Character> characterList, OnItemClickListener clickListener) {
+    public CharacterAdapter(List<Character> characterList, Set<String> favorites, OnItemClickListener clickListener) {
         this.characterList = characterList;
         this.clickListener = clickListener;
+        this.favorites=favorites;
+
     }
     @NonNull
     @Override
@@ -61,12 +65,23 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
             });
 
             favoriteTextView = itemView.findViewById(R.id.favoriteTextView); // Initialize the favorite TextView
-            //@TODO: favoriteTextView change to visible if character is favored
+        }
+
+        private boolean isFavorite(Character character) {
+            if (favorites != null && favorites.contains(character.getName())) {
+                return true;
+            }
+            return false;
         }
 
 
         public void bind(Character character) {
             nameTextView.setText(character.getName());
+            if (isFavorite(character))
+            {
+                favoriteTextView.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 }

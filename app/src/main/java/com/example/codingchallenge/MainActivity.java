@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,6 +17,8 @@ import com.example.codingchallenge.network.SwapidevService;
 import com.example.codingchallenge.model.Character;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import com.example.codingchallenge.network.CharacterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +35,22 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
     private SwapidevService swapidevService;
     // Reference to the ongoing API call
     private Call<CharacterResponse> currentApiCall;
+    SharedPreferences sharedpreferences;
+
+    public static final String fav_list = "favorites_list";
+    Set<String> favoritesList;
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        // Retrieve the favorites list when the activity is restarted
+        favoritesList = sharedpreferences.getStringSet(fav_list, null);
+
+        // Reset the adapter to ensure the favorites are loaded correctly
+        characterAdapter = new CharacterAdapter(characterList, favoritesList, this);
+        recyclerView.setAdapter(characterAdapter);
+    }
 
 
     @Override
@@ -49,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
     }
 
     private void initializeComponents() {
+        // Retrieve favorites from SharedPreferences
+        sharedpreferences = this.getSharedPreferences("favorites",
+                Context.MODE_PRIVATE);
+        favoritesList = sharedpreferences.getStringSet("favorites_list", null);
 
         // Initialize UI components
         searchView = findViewById(R.id.searchView);
@@ -66,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
         swapidevService = retrofit.create(SwapidevService.class);
 
         // Set Adapter
-        characterAdapter = new CharacterAdapter(characterList, this);
+        characterAdapter = new CharacterAdapter(characterList, favoritesList, this);
         recyclerView.setAdapter(characterAdapter);
 
     }

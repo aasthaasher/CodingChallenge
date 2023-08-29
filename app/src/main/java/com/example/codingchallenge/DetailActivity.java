@@ -2,11 +2,18 @@ package com.example.codingchallenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.codingchallenge.model.Character;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -24,7 +31,8 @@ public class DetailActivity extends AppCompatActivity {
 
     ImageView favoriteIcon;
 
-
+    private SharedPreferences sharedPreferences;
+    private boolean isFavorite = false; // Initial state is not a favorite
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         initializeComponents();
+        // Set the text of the favorite button based on the initial state
+        updateFavoriteButton();
+
+        // Toggle the favorite status when the favorite button is clicked
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFavoriteStatus();
+                updateFavoriteButton();
+            }
+        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,19 +58,17 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        // @TODO: favorite button onclick
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     private void initializeComponents() {
         // Retrieve the character object from the intent
         character = getIntent().getParcelableExtra("character");
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("favorites", Context.MODE_PRIVATE);
+
+        // Check if the character is already a favorite
+        isFavorite = checkIfFavorite(character.getName());
+
 
         // Initialize UI components
         nameTextView = findViewById(R.id.nameTextView);
@@ -77,6 +94,52 @@ public class DetailActivity extends AppCompatActivity {
         genderTextView.setText("Gender: " + character.getGender());
 
     }
+
+    // Helper method to check if a character is already a favorite
+    private boolean checkIfFavorite(String characterName) {
+        // Retrieve favorites from SharedPreference
+        Set<String> favoriteSet = sharedPreferences.getStringSet("favorites_list", null);
+        if (favoriteSet!=null){
+            return favoriteSet.contains(characterName);
+        }
+        return false;
+    }
+
+    // Helper method to toggle the favorite status
+    private void toggleFavoriteStatus() {
+        // Retrieve favorites from SharedPreferences
+        Set<String> favoriteSet = sharedPreferences.getStringSet("favorites_list", null);
+        Set<String> newFavoriteSet = new HashSet<>();
+        if (favoriteSet!=null){
+            newFavoriteSet.addAll(favoriteSet);}
+        if (isFavorite) {
+            newFavoriteSet.remove(character.getName());
+        }
+        else {
+            newFavoriteSet.add(character.getName());
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putStringSet("favorites_list", newFavoriteSet);
+        editor.apply();
+
+        // Toggle the favorite state
+        isFavorite = !isFavorite;
+    }
+
+    // Update the text of the favorite button based on the favorite status
+    private void updateFavoriteButton() {
+        Button favoriteButton = findViewById(R.id.favoriteButton);
+        if (isFavorite) {
+            favoriteButton.setText("Remove from Favorites");
+            favoriteIcon.setVisibility(View.VISIBLE);
+        } else {
+            favoriteButton.setText("Add to Favorites");
+            favoriteIcon.setVisibility(View.INVISIBLE);
+
+        }
+
+    }
+
 
     @Override
     public void onBackPressed() {
