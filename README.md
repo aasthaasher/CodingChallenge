@@ -1,5 +1,21 @@
 # CodingChallenge: Star Wars Character Viewer
 The Star Wars Character Viewer is an Android app that allows users to explore the vast world of Star Wars characters. You can search for characters, view their details, and mark your favorite ones for quick access. 
+
+<table>
+  <tr>
+    <td>Live Search</td>
+     <td>Character detail</td>
+     <td>Adding character to favorite</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/d40285ae-7d0e-447c-ab20-4017f37a30b2" width=240 height=480></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/27363f6d-ede4-41e2-a0b1-86c536de0404" width=240 height=480></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/5b00f77c-1494-4169-8c71-c6c0cee7727a" width=240 height=480></td>
+  </tr>
+ </table>
+
+
+
 ## Features
 
 - **Search for Characters**: Use the search bar to find your favorite Star Wars characters. As you type, live search results appear in the RecyclerView.
