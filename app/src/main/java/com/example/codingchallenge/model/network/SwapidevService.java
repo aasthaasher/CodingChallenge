@@ -1,4 +1,4 @@
-package com.example.codingchallenge.network;
+package com.example.codingchallenge.model.network;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

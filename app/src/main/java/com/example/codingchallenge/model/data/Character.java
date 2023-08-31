@@ -1,4 +1,4 @@
-package com.example.codingchallenge.model;
+package com.example.codingchallenge.model.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

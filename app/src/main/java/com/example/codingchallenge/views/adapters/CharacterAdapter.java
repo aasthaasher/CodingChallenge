@@ -1,4 +1,4 @@
-package com.example.codingchallenge.adapters;
+package com.example.codingchallenge.views.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.codingchallenge.model.Character;
+import com.example.codingchallenge.model.data.Character;
 import com.example.codingchallenge.R;
 
 import java.util.List;

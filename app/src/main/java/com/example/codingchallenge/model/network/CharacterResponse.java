@@ -1,7 +1,7 @@
-package com.example.codingchallenge.network;
+package com.example.codingchallenge.model.network;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
-import com.example.codingchallenge.model.Character;
+import com.example.codingchallenge.model.data.Character;
 
 
 public class CharacterResponse {

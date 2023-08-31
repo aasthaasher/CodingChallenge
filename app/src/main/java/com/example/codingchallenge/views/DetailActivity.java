@@ -1,7 +1,9 @@
-package com.example.codingchallenge;
+package com.example.codingchallenge.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.codingchallenge.model.Character;
+
+import com.example.codingchallenge.R;
+import com.example.codingchallenge.model.data.Character;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.example.codingchallenge;
+package com.example.codingchallenge.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -12,14 +12,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.codingchallenge.adapters.CharacterAdapter;
-import com.example.codingchallenge.network.SwapidevService;
-import com.example.codingchallenge.model.Character;
+import com.example.codingchallenge.R;
+import com.example.codingchallenge.views.adapters.CharacterAdapter;
+import com.example.codingchallenge.model.network.SwapidevService;
+import com.example.codingchallenge.model.data.Character;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.example.codingchallenge.network.CharacterResponse;
+import com.example.codingchallenge.model.network.CharacterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
