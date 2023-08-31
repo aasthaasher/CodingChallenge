@@ -42,7 +42,6 @@ public class DetailActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private boolean isFavorite = false; // Initial state is not a favorite
     private boolean isInDatabase = false;
-    List<CharacterEntity> characterList;
     CharacterViewModel characterViewModel;
 
     @Override
@@ -77,11 +76,11 @@ public class DetailActivity extends AppCompatActivity {
                 // Check if the character is already in the database
                 if(isInDatabase){
                     // if already saved then remove
-                    //removeCharacterFromDatabaseInBackground();
+                    removeCharacterFromDatabaseInBackground();
                 }
                 else {
                     // if not saved then add to database
-                    //addCharacterToDatabaseInBackground();
+                    addCharacterToDatabaseInBackground();
                 }
             }
         });
@@ -187,8 +186,31 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    public void addCharacterToDatabaseInBackground() {
+        CharacterEntity characterEntity = new CharacterEntity();
+        characterEntity.setName(character.getName());
+        characterEntity.setHeight(character.getHeight());
+        characterEntity.setMass(character.getMass());
+        characterEntity.setHairColor(character.getHairColor());
+        characterEntity.setSkinColor(character.getSkinColor());
+        characterEntity.setEyeColor(character.getEyeColor());
+        characterEntity.setBirthYear(character.getBirthYear());
+        characterEntity.setGender(character.getGender());
 
+        characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
+        characterViewModel.insert(characterEntity);
+        isInDatabase = true;
 
+        updateDatabaseButton();
+    }
+
+    private void removeCharacterFromDatabaseInBackground() {
+        characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
+        characterViewModel.delete(character.getName());
+        isInDatabase = false;
+
+        updateDatabaseButton();
+    }
         @Override
     public void onBackPressed() {
         super.onBackPressed();
