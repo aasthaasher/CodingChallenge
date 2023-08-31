@@ -17,17 +17,19 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     private List<Character> characterList;
     private OnItemClickListener clickListener;
     private Set<String> favorites;
+    private List<String> databaseChars;
+
 
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public CharacterAdapter(List<Character> characterList, Set<String> favorites, OnItemClickListener clickListener) {
+    public CharacterAdapter(List<Character> characterList, Set<String> favorites, List<String> databaseChars, OnItemClickListener clickListener) {
         this.characterList = characterList;
         this.clickListener = clickListener;
-        this.favorites=favorites;
-
+        this.favorites = favorites;
+        this.databaseChars = databaseChars;
     }
     @NonNull
     @Override
@@ -51,9 +53,12 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private TextView favoriteTextView;
+        private TextView databaseTextView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            databaseTextView = itemView.findViewById(R.id.databaseTextView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,13 +79,28 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
             return false;
         }
 
+        private boolean isinDatabase(Character character) {
+            if (databaseChars != null && databaseChars.contains(character.getName())) {
+                return true;
+            }
+            return false;
+        }
+
 
         public void bind(Character character) {
             nameTextView.setText(character.getName());
+            databaseTextView.setVisibility(View.INVISIBLE);
+
             if (isFavorite(character))
             {
                 favoriteTextView.setVisibility(View.VISIBLE);
             }
+
+            if (isinDatabase(character))
+            {
+                databaseTextView.setVisibility(View.VISIBLE);
+            }
+
 
         }
     }
