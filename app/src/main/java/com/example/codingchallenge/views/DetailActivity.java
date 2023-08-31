@@ -1,9 +1,14 @@
 package com.example.codingchallenge.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
 import com.example.codingchallenge.R;
 import com.example.codingchallenge.model.data.Character;
+import com.example.codingchallenge.model.data.CharacterDatabase;
+import com.example.codingchallenge.model.data.CharacterEntity;
+import com.example.codingchallenge.viewModel.CharacterViewModel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DetailActivity extends AppCompatActivity {
@@ -29,11 +35,15 @@ public class DetailActivity extends AppCompatActivity {
     TextView genderTextView;
     Button favoriteButton;
     Button backButton;
+    Button databaseButton;
 
     ImageView favoriteIcon;
 
     private SharedPreferences sharedPreferences;
     private boolean isFavorite = false; // Initial state is not a favorite
+    private boolean isInDatabase = false;
+    List<CharacterEntity> characterList;
+    CharacterViewModel characterViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +69,22 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Add or remove character from the database depending on whether character is in database
+        databaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Check if the character is already in the database
+                if(isInDatabase){
+                    // if already saved then remove
+                    //removeCharacterFromDatabaseInBackground();
+                }
+                else {
+                    // if not saved then add to database
+                    //addCharacterToDatabaseInBackground();
+                }
+            }
+        });
     }
 
     private void initializeComponents() {
@@ -69,7 +95,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // Check if the character is already a favorite
         isFavorite = checkIfFavorite(character.getName());
-
 
         // Initialize UI components
         nameTextView = findViewById(R.id.nameTextView);
@@ -83,6 +108,11 @@ public class DetailActivity extends AppCompatActivity {
         favoriteButton = findViewById(R.id.favoriteButton);
         backButton = findViewById(R.id.backButton);
         favoriteIcon = findViewById(R.id.favoriteIcon);
+        databaseButton = findViewById(R.id.addToDatabase);
+
+        // Check if the Character is Already in the Database
+        checkIfCharacterInDatabaseInBackground();
+
 
         // Populate the UI with character details
         nameTextView.setText(character.getName());
@@ -104,6 +134,14 @@ public class DetailActivity extends AppCompatActivity {
             return favoriteSet.contains(characterName);
         }
         return false;
+    }
+
+    public void checkIfCharacterInDatabaseInBackground() {
+        characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
+        if (characterViewModel.checkIfCharacterInDatabase(character.getName())) {
+            isInDatabase = true;
+            updateDatabaseButton();
+        }
     }
 
     // Helper method to toggle the favorite status
@@ -141,8 +179,17 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    private void updateDatabaseButton() {
+        if (isInDatabase) {
+            databaseButton.setText("Remove from Database");
+        } else {
+            databaseButton.setText("Add to Database");
+        }
+    }
 
-    @Override
+
+
+        @Override
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
