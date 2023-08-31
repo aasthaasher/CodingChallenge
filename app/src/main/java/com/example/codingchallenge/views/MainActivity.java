@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
         getDatabaseCharacters();
 
         // Reset the adapter to ensure the favorites are loaded correctly
-        characterAdapter = new CharacterAdapter(characterList, favoritesList, this);
+        characterAdapter = new CharacterAdapter(characterList, favoritesList, charsInDB, this);
         recyclerView.setAdapter(characterAdapter);
     }
 
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
         swapidevService = retrofit.create(SwapidevService.class);
 
         // Set Adapter
-        characterAdapter = new CharacterAdapter(characterList, favoritesList, this);
+        characterAdapter = new CharacterAdapter(characterList, favoritesList, charsInDB, this);
         recyclerView.setAdapter(characterAdapter);
 
     }
