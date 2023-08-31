@@ -2,11 +2,9 @@ package com.example.codingchallenge.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
 
 import com.example.codingchallenge.R;
 import com.example.codingchallenge.model.data.Character;
-import com.example.codingchallenge.model.data.CharacterDatabase;
 import com.example.codingchallenge.model.data.CharacterEntity;
 import com.example.codingchallenge.viewModel.CharacterViewModel;
 
@@ -19,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class DetailActivity extends AppCompatActivity {
@@ -41,7 +38,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private boolean isFavorite = false; // Initial state is not a favorite
-    private boolean isInDatabase = false;
+    private boolean isInDatabase = false; // Initial state is not saved
     CharacterViewModel characterViewModel;
 
     @Override
@@ -135,6 +132,7 @@ public class DetailActivity extends AppCompatActivity {
         return false;
     }
 
+    // Helper method to check if a character is already saved
     public void checkIfCharacterInDatabaseInBackground() {
         characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
         if (characterViewModel.checkIfCharacterInDatabase(character.getName())) {
@@ -178,14 +176,16 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    // Update the text of the database button based on the favorite status
     private void updateDatabaseButton() {
         if (isInDatabase) {
-            databaseButton.setText("Remove from Database");
+            databaseButton.setText(R.string.remove_from_db);
         } else {
-            databaseButton.setText("Add to Database");
+            databaseButton.setText(R.string.add_to_db);
         }
     }
 
+    // Helper method to save character
     public void addCharacterToDatabaseInBackground() {
         CharacterEntity characterEntity = new CharacterEntity();
         characterEntity.setName(character.getName());
@@ -201,14 +201,17 @@ public class DetailActivity extends AppCompatActivity {
         characterViewModel.insert(characterEntity);
         isInDatabase = true;
 
+        // change the text of the database button
         updateDatabaseButton();
     }
 
+    // Helper method to remove character from database
     private void removeCharacterFromDatabaseInBackground() {
         characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
         characterViewModel.delete(character.getName());
         isInDatabase = false;
 
+        // change the text of the database button
         updateDatabaseButton();
     }
         @Override

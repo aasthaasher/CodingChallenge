@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
     private RecyclerView recyclerView;
     private CharacterAdapter characterAdapter;
     private List<Character> characterList;
-    private Retrofit retrofit;
     private SwapidevService swapidevService;
     // Reference to the ongoing API call
     private Call<CharacterResponse> currentApiCall;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
     CharacterViewModel characterViewModel;
     Button showDatabaseButton;
     String charsInDBMessage;
-
     public static final String fav_list = "favorites_list";
     Set<String> favoritesList;
 
@@ -77,8 +75,11 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Access saved characters
         getDatabaseCharacters();
 
+        // Initialize components
         initializeComponents();
 
         // Set up search functionality
@@ -88,16 +89,17 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
             @Override
             public void onClick(View view) {
 
+                // Create a message box which shows saved characters
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setMessage(charsInDBMessage);
                 if(Objects.equals(charsInDBMessage, "")){
-                    builder.setMessage("No saved characters");
+                    builder.setMessage(R.string.no_saved_chars);
                 }
                 else {
                     builder.setMessage(charsInDBMessage);
                 }
-                builder.setTitle("Characters in Database")
-                        .setPositiveButton("Done", (DialogInterface.OnClickListener) (dialog, which) -> {
+                builder.setTitle(R.string.message_title)
+                        .setPositiveButton(R.string.message_positive_button, (DialogInterface.OnClickListener) (dialog, which) -> {
                     dialog.cancel();
                 });
                 AlertDialog alertDialog = builder.create();
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
         characterList = new ArrayList<>();
 
         // Initialize Retrofit for API calls
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://swapi.dev/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
 
     }
 
+    // Helper method to get the saved characters
     private void getDatabaseCharacters() {
         characterViewModel = new ViewModelProvider(this).get(CharacterViewModel.class);
         allCharsInDb = characterViewModel.getAllCharacters();
@@ -189,10 +192,11 @@ public class MainActivity extends AppCompatActivity implements CharacterAdapter.
             public void onResponse(Call<CharacterResponse> call, Response<CharacterResponse> response) {
                 if (response.isSuccessful()) {
                     characterList.clear();
-                    characterList.addAll(response.body().getResults());
+                    if (response.body() != null) {
+                        characterList.addAll(response.body().getResults());
+                    }
                     characterAdapter.notifyDataSetChanged();
                     CharacterResponse characterResponse = response.body();
-                    List<Character> characters = characterResponse.getResults();
 
                 } else {
                     int statusCode = response.code();
