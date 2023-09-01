@@ -9,10 +9,10 @@ The Star Wars Character Viewer is an Android app that allows users to explore th
      <td>Adding to favorite and saved</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/41768826-6a1d-4400-b326-8ded29f63569" width=240 height=480></td>
-    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/fe21b577-831f-4a48-be67-d759cdfc8914" width=240 height=480></td>
-    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/b3a1c177-9712-49e3-bf60-7c7e3fd9cff6" width=240 height=480></td>
-    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/f278346c-a54a-45e2-9d01-a45c76524e86" width=240 height=480></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/41768826-6a1d-4400-b326-8ded29f63569" width=240 height=440></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/fe21b577-831f-4a48-be67-d759cdfc8914" width=240 height=440></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/b3a1c177-9712-49e3-bf60-7c7e3fd9cff6" width=240 height=440></td>
+    <td><img src="https://github.com/aasthaasher/CodingChallenge/assets/47029997/f278346c-a54a-45e2-9d01-a45c76524e86" width=240 height=440></td>
   </tr>
  </table>
 
